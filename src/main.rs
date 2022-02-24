@@ -1,8 +1,9 @@
+#[cfg(feature = "ui")]
 mod app;
 mod cli;
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(all(feature = "pbf", not(target_arch = "wasm32")))]
 mod node_db;
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(all(feature = "pbf", not(target_arch = "wasm32")))]
 mod pbf;
 mod status;
 
@@ -22,12 +23,12 @@ fn main() -> Result<()> {
             println!("'myapp add' was used, name is: {:?}", filters)
         }
         Commands::Pbf { path } => {
-            #[cfg(not(target_arch = "wasm32"))]
+            #[cfg(all(feature = "pbf", not(target_arch = "wasm32")))]
             {
                 pbf::create_db(path)?;
                 pbf::test_db()?;
             }
-            #[cfg(target_arch = "wasm32")]
+            #[cfg(not(all(feature = "pbf", not(target_arch = "wasm32"))))]
             {
                 println!("PBF support not available with wasm");
             }

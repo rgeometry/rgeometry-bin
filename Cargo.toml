@@ -17,10 +17,12 @@ env_logger = "0.9.0"
 memmap = { version = "0.7.0", optional = true }
 byte-slice-cast = "1.1.0"
 chrono = "*"
-eframe = "0.16.0"
+eframe = { version = "0.16.0", optional = true }
 humantime = "*"
 rhai = "1.4.1"
 clap = { version = "3.1.2", features = ["derive"] }
 
 [features]
-default = ["osmpbf", "rayon", "memmap"]
+ui = ["eframe"]
+pbf = ["osmpbf", "rayon", "memmap"]
+default = ["pbf", "ui"]
