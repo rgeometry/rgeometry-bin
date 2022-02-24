@@ -1,5 +1,6 @@
 mod app;
 mod cli;
+#[cfg(not(target_arch = "wasm32"))]
 mod node_db;
 #[cfg(not(target_arch = "wasm32"))]
 mod pbf;
