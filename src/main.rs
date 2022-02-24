@@ -43,8 +43,8 @@ mod app;
 mod node_db;
 
 mod cli;
-use cli::*;
 use clap::Parser;
+use cli::*;
 
 fn main() -> Result<()> {
     env_logger::init();
@@ -56,8 +56,8 @@ fn main() -> Result<()> {
     match &cli.command {
         Commands::Asymptote { filters } => {
             println!("'myapp add' was used, name is: {:?}", filters)
-        },
-        Commands::Pbf { path} => {
+        }
+        Commands::Pbf { path } => {
             create_db(path)?;
             test_db()?;
         }
@@ -245,7 +245,7 @@ fn create_db(path: impl AsRef<Path>) -> Result<()> {
                 Element::DenseNode(node) => {
                     status.add(1);
                     db.set(node.id, node.nano_lat(), node.nano_lon())
-                },
+                }
                 _ => (),
             },
             || (),

@@ -52,7 +52,7 @@ impl Status {
                 let stopped = lock.lock().unwrap();
                 let result = cvar.wait_timeout(stopped, SLEEP_DURATION).unwrap();
                 let progress = at.load(Ordering::Relaxed) as f64 / total as f64;
-                if at.load(Ordering::Relaxed)==0 {
+                if at.load(Ordering::Relaxed) == 0 {
                     continue;
                 }
                 let elapsed = clamp_duration(now.elapsed());
