@@ -1,5 +1,4 @@
 use anes::*;
-use humantime;
 use std::io::Write;
 use std::sync::atomic::AtomicU64;
 use std::sync::atomic::Ordering;
@@ -43,6 +42,7 @@ impl Status {
         let at = Arc::new(AtomicU64::new(0));
         let at2 = at.clone();
         // let stop = Condvar::new();
+        #[allow(clippy::mutex_atomic)]
         let pair = Arc::new((Mutex::new(false), Condvar::new()));
         let pair2 = Arc::clone(&pair);
         let handle = spawn(move || {
@@ -68,7 +68,7 @@ impl Status {
                 );
                 std::io::stdout().flush().unwrap();
                 if *result.0 {
-                    println!("");
+                    println!();
                     break;
                 }
             }
