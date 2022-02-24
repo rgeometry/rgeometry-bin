@@ -21,11 +21,13 @@ fn main() -> Result<()> {
             println!("'myapp add' was used, name is: {:?}", filters)
         }
         Commands::Pbf { path } => {
-            #[cfg(not(target_arch = "wasm32"))] {
-            pbf::create_db(path)?;
-            pbf::test_db()?;
+            #[cfg(not(target_arch = "wasm32"))]
+            {
+                pbf::create_db(path)?;
+                pbf::test_db()?;
             }
-            #[cfg(target_arch = "wasm32")] {
+            #[cfg(target_arch = "wasm32")]
+            {
                 println!("PBF support not available with wasm");
             }
         }
