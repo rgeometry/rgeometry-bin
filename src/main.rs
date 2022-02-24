@@ -9,7 +9,7 @@ use osmpbf::BlobDecode;
 // use osmpbf::BlobReader;
 // use osmpbf::{Element, ElementReader};
 // use std::collections::HashMap;
-use std::collections::HashSet;
+// use std::collections::HashSet;
 // use std::fs::File;
 // use std::io::BufReader;
 // use std::io::Read;
@@ -22,7 +22,7 @@ use std::collections::HashSet;
 
 // use std::sync::Mutex;
 
-use anes::*;
+// use anes::*;
 use anyhow::Result;
 use log::info;
 use rayon::iter::{ParallelBridge, ParallelIterator};
@@ -35,23 +35,42 @@ use std::sync::atomic::Ordering;
 mod status;
 use status::*;
 
-mod indexed;
-use indexed::*;
+// mod indexed;
+// use indexed::*;
 
 // mod gui;
 mod app;
 mod node_db;
 
+mod cli;
+use cli::*;
+use clap::Parser;
+
 fn main() -> Result<()> {
     env_logger::init();
+
+    let cli = Cli::parse();
+
+    // You can check for the existence of subcommands, and if found use their
+    // matches just as you would the top level cmd
+    match &cli.command {
+        Commands::Asymptote { filters } => {
+            println!("'myapp add' was used, name is: {:?}", filters)
+        },
+        Commands::Pbf { path} => {
+            create_db(path)?;
+            test_db()?;
+        }
+    }
+    Ok(())
 
     // create_db()
     // test_db()
     // create_polygons()
     // gui::main();
-    let app = app::TemplateApp::default();
-    let native_options = eframe::NativeOptions::default();
-    eframe::run_native(Box::new(app), native_options);
+    // let app = app::TemplateApp::default();
+    // let native_options = eframe::NativeOptions::default();
+    // eframe::run_native(Box::new(app), native_options);
 }
 
 fn analyze_osm_pbf(path: impl AsRef<Path>) -> Result<(u64, u64)> {
@@ -60,7 +79,7 @@ fn analyze_osm_pbf(path: impl AsRef<Path>) -> Result<(u64, u64)> {
     let ways = AtomicU64::new(0);
     let lines = AtomicU64::new(0);
     let n_count = AtomicU64::new(0);
-    let n_blocks = AtomicU64::new(0);
+    // let n_blocks = AtomicU64::new(0);
 
     info!("Blocks: {}", mmap.blob_iter().count());
 
@@ -189,7 +208,7 @@ fn _create_polygons() -> Result<()> {
     return Ok(());
 }
 
-fn _test_db() -> Result<()> {
+fn test_db() -> Result<()> {
     info!("TestDB");
 
     // let reader = ElementReader::from_path("planet-210201.osm.pbf")?;
@@ -209,13 +228,13 @@ fn _test_db() -> Result<()> {
     return Ok(());
 }
 
-fn _create_db() -> Result<()> {
+fn create_db(path: impl AsRef<Path>) -> Result<()> {
     info!("Analyzing data file");
-    let (n_nodes, _n_polygons) = analyze_osm_pbf("planet.osm.pbf")?;
+    let (n_nodes, _n_polygons) = analyze_osm_pbf(&path)?;
 
     info!("CreateDB");
 
-    let reader = ElementReader::from_path("planet.osm.pbf")?;
+    let reader = ElementReader::from_path(path)?;
 
     let db = node_db::new(Path::new("nodes.db"), n_nodes);
 

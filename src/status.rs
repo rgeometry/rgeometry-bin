@@ -80,7 +80,7 @@ impl Status {
         }
     }
 
-    pub fn set(&self, at: u64) {
+    pub fn _set(&self, at: u64) {
         self.at.store(at, Ordering::Relaxed);
     }
     pub fn add(&self, inc: u64) {

@@ -3,7 +3,6 @@ use byte_slice_cast::AsSliceOf;
 use memmap::MmapMut;
 use std::fs::OpenOptions;
 use std::ops::Deref;
-use std::ops::DerefMut;
 use std::path::Path;
 
 pub struct NodeDB {
@@ -26,7 +25,7 @@ pub fn new(path: &Path, nodes: u64) -> NodeDB {
     }
 }
 
-pub fn open(path: &Path) -> NodeDB {
+pub fn _open(path: &Path) -> NodeDB {
     let file = OpenOptions::new()
         .read(true)
         .write(true)

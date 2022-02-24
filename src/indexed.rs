@@ -5,10 +5,8 @@ use osmpbf::{BlobDecode, ByteOffset, PrimitiveBlock};
 use rayon::iter::{ParallelBridge, ParallelIterator};
 use std::ops::RangeInclusive;
 
-use std::cell::RefCell;
 use std::collections::HashMap;
 use std::io::Write;
-use std::rc::Rc;
 use std::sync::atomic::AtomicU64;
 use std::sync::atomic::Ordering;
 use std::sync::Arc;

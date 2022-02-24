@@ -72,7 +72,7 @@ impl epi::App for TemplateApp {
 
         egui::TopBottomPanel::bottom("side_panel").resizable(true).show(ctx, |ui| {
             let mut my_string = String::new();
-            let response = ui.add(egui::TextEdit::multiline(&mut my_string).desired_width(f32::INFINITY));
+            let _response = ui.add(egui::TextEdit::multiline(&mut my_string).desired_width(f32::INFINITY));
             // egui::warn_if_debug_build(ui);
         });
 
